@@ -1,5 +1,7 @@
 package repository
 
+import "github.com/jmoiron/sqlx"
+
 type MessageHTTPAPI interface {
 }
 
@@ -19,6 +21,6 @@ type Repository struct {
 	LoggingAPI
 }
 
-func NewRepository() *Repository {
+func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{}
 }
