@@ -4,9 +4,15 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kahuri1/message-processor/pkg/service"
 )
 
 type Handler struct {
+	services *service.Service
+}
+
+func Newhandler(services *service.Service) *Handler {
+	return &Handler{services: services}
 }
 
 func (h *Handler) InitRoutes() *gin.Engine {
