@@ -1,18 +1,22 @@
 package handler
 
 import (
+	"github.com/kahuri1/message-processor/pkg/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kahuri1/message-processor/pkg/service"
 )
 
-type Handler struct {
-	services *service.Service
+type messageService interface {
+	CreateMessage(m model.Message) error
 }
 
-func Newhandler(services *service.Service) *Handler {
-	return &Handler{services: services}
+type Handler struct {
+	service messageService
+}
+
+func Newhandler(service messageService) *Handler {
+	return &Handler{service: service}
 }
 
 func (h *Handler) InitRoutes() *gin.Engine {
