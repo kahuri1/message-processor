@@ -6,7 +6,11 @@ import (
 
 // Создание нового сообщения
 func (h *Handler) CreateMessage(c *gin.Context) {
-	// Логика создания сообщения
+
+	if err := c.ShouldBindJSON(&message); err != nil {
+
+		return
+	}
 }
 
 // Получение сообщения по ID
