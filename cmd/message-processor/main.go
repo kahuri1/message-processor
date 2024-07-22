@@ -31,12 +31,13 @@ func main() {
 		Password: os.Getenv("DB_PASSWORD"),
 	})
 	if err != nil {
-		logrus.Fatalf("Failed initialization db: %s", err.Error())
+		logrus.Errorf("Failed initialization db: %s", err.Error())
+		//logrus.Fatalf("Failed initialization db: %s", err.Error())
 	}
 
 	repos := repository.NewRepository(db)
-	services := service.NewService(repos)
-	handlers := handler.Newhandler(services)
+	service := service.NewService(repos, nil)
+	handlers := handler.Newhandler(service)
 
 	srv := new(todo.Server)
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
@@ -45,7 +46,7 @@ func main() {
 }
 
 func initConfig() error {
-	viper.AddConfigPath("C:/proect/message-processor/configs") //исправить на нормальный путь
+	viper.AddConfigPath("/Users/alvalov/projects/message-processor/configs") //исправить на нормальный путь
 	viper.SetConfigName("config")
 	return viper.ReadInConfig()
 }

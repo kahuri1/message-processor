@@ -1,26 +1,27 @@
 package service
 
-import "github.com/kahuri1/message-processor/pkg/repository"
+import (
+	"github.com/kahuri1/message-processor/pkg/model"
+	log "github.com/sirupsen/logrus"
+)
 
-type MessageHTTPAPI interface {
+type kafka interface {
 }
 
-type KafkaAPI interface {
-}
-
-type DatabaseAPI interface {
-}
-
-type LoggingAPI interface {
+type repo interface {
+	Create(message model.Message) (int64, error)
 }
 
 type Service struct {
-	MessageHTTPAPI
-	KafkaAPI
-	DatabaseAPI
-	LoggingAPI
+	kafka kafka
+	repo  repo
 }
 
-func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+func NewService(repo repo, kafka kafka) *Service {
+	log.Info("service init")
+
+	return &Service{
+		repo:  repo,
+		kafka: kafka,
+	}
 }
